@@ -1,13 +1,21 @@
 fs = require('fs');
+var parseString = require('xml2js').parseString;
 
 var parseInputAPI = function(type) {
   if(type == "xml") {
-    //fs.readFile(file, [encoding], [callback]);
-    return "lulz";
+
+    fs.readFile("resources/cards.xml", 'utf8', function(err, data) {
+      parseString(data, function (err, result) {
+        app.get('/', function(request, response) {
+          response.render('pages/index', {stuff:result});
+        });
+      });
+    });
+
   }
 };
 
-console.log(parseInputAPI("xml"));
+parseInputAPI("xml");
 
 var express = require('express');
 var app = express();
@@ -20,9 +28,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-app.get('/', function(request, response) {
-  response.render('pages/index', {stuff:"things"});
-});
+
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
