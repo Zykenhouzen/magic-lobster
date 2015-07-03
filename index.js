@@ -1,3 +1,14 @@
+fs = require('fs');
+
+var parseInputAPI = function(type) {
+  if(type == "xml") {
+    //fs.readFile(file, [encoding], [callback]);
+    return "lulz";
+  }
+};
+
+console.log(parseInputAPI("xml"));
+
 var express = require('express');
 var app = express();
 
