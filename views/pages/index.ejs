@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+
+<body>
+
+
+
+<div class="jumbotron text-center">
+
+
+</script>
+<select name="sets">
+<%for(var card in cards) {%>
+  <option value="<%=cards[card].name[0]%>"><%=cards[card].name[0]%></option>
+<%}%>
+</select>
+
+
+    <script>
+      var getCardsBySetId = function(cards, id) {
+        var filteredCards = [];
+        for(var card in cards) {
+          for(var currentSet in cards[card].set) {
+            if(id == cards[card].set[currentSet]._) {
+              filteredCards.push(cards[card]);
+              break;
+            }
+          }
+        }
+        return filteredCards;
+      }
+    </script>
+</div>
+
+</body>
+</html>
