@@ -6,7 +6,7 @@ var parseInputAPI = function(type) {
     fs.readFile("resources/cards.xml", 'utf8', function(err, data) {
       parseString(data, function (err, result) {
         loadPageInfo(result.cockatrice_carddatabase.sets[0].set,
-          result.cockatrice_carddatabase.cards);
+          result.cockatrice_carddatabase.cards[0].card);
       });
     })
 
@@ -16,9 +16,24 @@ var parseInputAPI = function(type) {
 var loadPageInfo = function(sets, cards) {
   app.get('/', function(request, response) {
     var util = require('util');
-    console.log(util.inspect(sets, false, null));//, util.inspect(cards, false, null));
-    response.render('pages/index', {sets:sets, cards:cards});
+    //console.log(util.inspect(cards, false, 4));//, util.inspect(cards, false, null));
+
+    response.render('pages/index', {sets:sets, cards:getCardsBySetId(cards, request.query.set)});
   });
+}
+
+var getCardsBySetId = function(cards, id) {
+  var filteredCards = [];
+  for(var card in cards) {
+    for(var currentSet in cards[card].set) {
+      //console.log(cards[card].set[currentSet]._);
+      if(id == cards[card].set[currentSet]._) {
+        filteredCards.push(cards[card]);
+        break;
+      }
+    }
+  }
+  return filteredCards;
 }
 
 parseInputAPI("xml")
