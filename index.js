@@ -3,19 +3,25 @@ var parseString = require('xml2js').parseString;
 
 var parseInputAPI = function(type) {
   if(type == "xml") {
-
     fs.readFile("resources/cards.xml", 'utf8', function(err, data) {
       parseString(data, function (err, result) {
-        app.get('/', function(request, response) {
-          response.render('pages/index', {stuff:result});
-        });
+        loadPageInfo(result.cockatrice_carddatabase.sets[0].set,
+          result.cockatrice_carddatabase.cards);
       });
-    });
+    })
 
   }
 };
 
-parseInputAPI("xml");
+var loadPageInfo = function(sets, cards) {
+  app.get('/', function(request, response) {
+    var util = require('util');
+    console.log(util.inspect(sets, false, null));//, util.inspect(cards, false, null));
+    response.render('pages/index', {sets:sets, cards:cards});
+  });
+}
+
+parseInputAPI("xml")
 
 var express = require('express');
 var app = express();

@@ -9,11 +9,16 @@
 
 
 <div class="jumbotron text-center">
-YARRRRR
 
-<%=stuff%>
+<select>
+<%for(var set=0; set < sets.length; set++) {%>
+  <option value="<%=sets[set].name%>"><%=sets[set].longname%></option>
+<%}%>
+</select>
+
+
     <script>
-      console.log(stuff);
+
     </script>
 </div>
 
